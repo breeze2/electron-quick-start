@@ -1,0 +1,29 @@
+name: Build/release
+
+on: push
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: 'yarn'
+      - name: Yarn Install
+        run: yarn
+
+      - name: Build/release Electron app
+        run: yarn electron-builder --win --ia32 --publish never
+      
+      - name: Show Build
+        run: "ls dist"
