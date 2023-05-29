@@ -22,8 +22,16 @@ jobs:
       - name: Yarn Install
         run: yarn
 
-      - name: Build/release Electron app
+      - name: Build Electron app
         run: yarn electron-builder --win --ia32 --publish never
       
       - name: Show Build
-        run: "ls dist"
+        run: |
+          ls dist
+          ls node_modules/usb/build/Release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-quick
+          path: dist/electron-quick-start Setup 1.0.0.exe
